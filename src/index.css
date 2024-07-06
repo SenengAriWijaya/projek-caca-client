@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card {
+  background-color: #fdfdfd;
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.0784313725490196) !important;
+  border-radius: 8px !important;
+  border: none !important;
+}
