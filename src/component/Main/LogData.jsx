@@ -13,6 +13,7 @@ import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
 import useSWR from "swr";
 import axios from "axios";
 import { useState, useMemo } from "react";
+import { Input } from "@nextui-org/input";
 
 export default function LogData() {
   const fetcher = async () => {
@@ -26,18 +27,23 @@ export default function LogData() {
 
   const pages = Math.ceil(data?.length / rowsPerPage);
 
-  const dataSensors = useMemo (() => {
+  const dataSensors = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return data ? data.slice(start, end) : [];
-    // return data.slice(start, end)
+    return data
+      ? data.slice(start, end).map((item, index) => ({
+          ...item,
+          no: start + index + 1,
+        }))
+      : [];
   }, [data, page]);
 
   if (!data) return <div>Loading...</div>;
+
   const dataMenu = [
     {
-      key: "id",
+      key: "no",
       label: "No",
     },
     {
@@ -71,19 +77,37 @@ export default function LogData() {
       <div className="bg-[#F3F2F7]">
         <div className="ml-[300px] p-8">
           <div className="relative flex items-center justify-between">
-          <input
+            {/* <input
               type="text"
               className="card w-[780px] py-2 px-3 font-normal text-[16px] font-barlow"
               placeholder="Cari Disini"
             />
-            <div className="absolute right-[345px]">
+            <div className="absolute right-[380px] top-1/2 transform -translate-y-1/2">
               <Image
                 src="/icon/search.svg"
                 alt="Search Icon"
                 className="cursor-pointer"
               />
-            </div>
-            <div className="pl-20 ">
+            </div> */}
+            <Input
+              type="text"
+              placeholder="Cari Disini"
+              className="w-[780px] bg-white rounded-sm"
+              labelPlacement="outside"
+              variant="bordered"
+              radius="sm"
+              size="md"
+              endContent={
+                <Image
+                  src="/icon/search.svg"
+                  className="mr-2"
+                  height={25}
+                  width={25}
+                  alt="image"
+                />
+              }
+            />
+            <div className="pl-20">
               <div className="bg-lightBlue p-2 rounded-xl cursor-pointer">
                 <Image
                   src="/icon/Icon_Notifikasi.svg"
@@ -97,7 +121,7 @@ export default function LogData() {
             <h1 className="font-semibold text-[32px] font-barlow text-black">
               Log Data
             </h1>
-            <p className=" font-medium text-[18px] font-barlow text-gray">
+            <p className="font-medium text-[18px] font-barlow text-gray">
               List Log Data
             </p>
           </div>
@@ -133,7 +157,7 @@ export default function LogData() {
               </TableHeader>
               <TableBody items={dataSensors}>
                 {(item) => (
-                  <TableRow key={item.key}>
+                  <TableRow key={item.no}>
                     {(columnKey) => (
                       <TableCell className="px-10">
                         {getKeyValue(item, columnKey)}

@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
 import useSWR from "swr";
 import axios from "axios";
+import { Input } from "@nextui-org/input";
 
 export default function Monitoring() {
   const dataSensors = (url) => axios.get(url).then((res) => res.data.data);
@@ -19,19 +20,25 @@ export default function Monitoring() {
     <>
       <div className="bg-[#F3F2F7]">
         <div className="ml-[300px] p-8">
-        <div className="relative flex items-center justify-between">
-            <input
+          <div className="relative flex items-center justify-between">
+            <Input
               type="text"
-              className="card w-[780px] py-2 px-3 font-normal text-[16px] font-barlow"
               placeholder="Cari Disini"
+              className="w-[780px] bg-white rounded-sm"
+              labelPlacement="outside"
+              variant="bordered"
+              radius="sm"
+              size="md"
+              endContent={
+                <Image
+                  src="/icon/search.svg"
+                  className="mr-2"
+                  height={25}
+                  width={25}
+                  alt="image"
+                />
+              }
             />
-            <div className="absolute right-[345px]">
-              <Image
-                src="/icon/search.svg"
-                alt="Search Icon"
-                className="cursor-pointer"
-              />
-            </div>
             <div className="pl-20 ">
               <div className="bg-lightBlue p-2 rounded-xl cursor-pointer">
                 <Image
@@ -125,15 +132,15 @@ export default function Monitoring() {
             <div className="flex justify-evenly items-center mb-14">
               {sensors && (
                 <div className="flex flex-col justify-center items-center">
-                <div className=" font-barlow font-bold  text-3xl">
-                  Kondisi Udara Saat Ini
+                  <div className=" font-barlow font-bold  text-3xl">
+                    Kondisi Udara Saat Ini
+                  </div>
+                  <p className=" font-barlow text-black">
+                    Terahir diperbaharui {sensors.tanggal}
+                  </p>
                 </div>
-                <p className=" font-barlow text-black">
-                  Terahir diperbaharui {sensors.tanggal}
-                </p>
-              </div>
               )}
-              
+
               {sensors && (
                 <div className="py-4">
                   <div className="flex items-center">
